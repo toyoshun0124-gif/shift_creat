@@ -1,0 +1,37 @@
+{
+  "name": "shift_creat (Vite + Vercel + Prisma)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "vercel.turbo-vsc"
+      ]
+    }
+  },
+
+  // Vite dev server, Vercel dev (functions), Prisma Studio
+  "forwardPorts": [5173, 3000, 5555],
+  "portsAttributes": {
+    "5173": { "label": "Vite dev server" },
+    "3000": { "label": "Vercel dev (api/)" },
+    "5555": { "label": "Prisma Studio" }
+  },
+
+  "postCreateCommand": "npm install -g vercel prisma && if [ -f package.json ]; then npm install; fi",
+
+  "remoteEnv": {
+    // .env.local に Vercel Dashboard から取得した値を設定してください（DB接続文字列など）
+  },
+
+  "remoteUser": "node"
+}

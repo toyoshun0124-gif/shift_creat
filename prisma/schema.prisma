@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+enum Role {
+  MANAGER
+  EMPLOYEE
+}
+
+enum PeriodStatus {
+  COLLECTING
+  GENERATED
+  FINALIZED
+}
+
+enum RequestStatus {
+  PENDING
+  APPLIED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  loginId   String   @unique
+  password  String
+  name      String
+  role      Role
+  createdAt DateTime @default(now())
+
+  preferences           Preference[]
+  assignments           ShiftAssignment[]
+  readjustmentRequests  ReadjustmentRequest[]
+  drafts                Draft[]
+}
+
+model ShiftPeriod {
+  id                  String       @id @default(cuid())
+  title               String
+  deadline            DateTime
+  status              PeriodStatus @default(COLLECTING)
+  selectedCandidateId String?
+  isShared            Boolean      @default(false)
+  createdAt           DateTime     @default(now())
+
+  preferences           Preference[]
+  candidates            ShiftCandidate[]
+  readjustmentRequests  ReadjustmentRequest[]
+}
+
+model Preference {
+  id        String      @id @default(cuid())
+  periodId  String
+  period    ShiftPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String
+  startTime String
+  endTime   String
+  createdAt DateTime    @default(now())
+
+  @@index([periodId])
+  @@index([userId])
+}
+
+model ShiftCandidate {
+  id        String      @id @default(cuid())
+  periodId  String
+  period    ShiftPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  index     Int
+  createdAt DateTime    @default(now())
+
+  assignments ShiftAssignment[]
+
+  @@index([periodId])
+}
+
+model ShiftAssignment {
+  id          String         @id @default(cuid())
+  candidateId String
+  candidate   ShiftCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        String
+  startTime   String
+  endTime     String
+
+  @@index([candidateId])
+  @@index([userId])
+}
+
+model ReadjustmentRequest {
+  id        String        @id @default(cuid())
+  periodId  String
+  period    ShiftPeriod   @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String
+  startTime String
+  endTime   String
+  reason    String?
+  status    RequestStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+
+  @@index([periodId])
+  @@index([userId])
+}
+
+model Draft {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  key       String
+  data      Json
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, key])
+}
