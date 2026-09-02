@@ -8,7 +8,7 @@
     "dev:api": "node --env-file=.env.local scripts/dev-api-server.js",
     "build": "vite build",
     "preview": "vite preview",
-    "vercel-build": "prisma generate && prisma migrate deploy && vite build",
+    "vercel-build": "node scripts/resolve-db-url.js prisma generate && node scripts/resolve-db-url.js prisma migrate deploy && node scripts/resolve-db-url.js node prisma/seed.js && vite build",
     "db:generate": "prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:seed": "dotenv -e .env.local -- node prisma/seed.js"
