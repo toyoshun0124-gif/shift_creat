@@ -49,8 +49,8 @@ async function request(path, { method = 'GET', body } = {}) {
 export const api = {
   login: (loginId, password, role) => request('/auth/login', { method: 'POST', body: { loginId, password, role } }),
   currentPeriod: () => request('/periods/current'),
-  submitPreference: (date, startTime, endTime) =>
-    request('/preferences/submit', { method: 'POST', body: { date, startTime, endTime } }),
+  submitMonthPreferences: (month, entries) =>
+    request('/preferences/submit-month', { method: 'POST', body: { month, entries } }),
   generateShift: () => request('/shifts/generate', { method: 'POST' }),
   readjustShift: (periodId) => request('/shifts/readjust', { method: 'POST', body: { periodId } }),
   finalizeShift: (periodId, candidateId) =>

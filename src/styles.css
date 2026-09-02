@@ -230,3 +230,18 @@ body {
 .muted {
   color: #9aa5b1;
 }
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.row-error {
+  background: #fde8e8;
+}
+
+.row-error input {
+  border-color: #c53030;
+}
