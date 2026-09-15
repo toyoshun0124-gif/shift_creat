@@ -27,7 +27,7 @@ model User {
   id        String   @id @default(cuid())
   loginId   String   @unique
   password  String
-  name      String
+  name      String?
   role      Role
   createdAt DateTime @default(now())
 

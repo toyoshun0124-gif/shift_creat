@@ -5,8 +5,8 @@ import { useAuth } from '../lib/AuthContext.jsx';
 import Message from '../components/Message.jsx';
 
 const ROLE_LABEL = {
-  manager: { role: 'MANAGER', label: 'マネージャー', home: '/manager' },
-  employee: { role: 'EMPLOYEE', label: '従業員', home: '/employee' },
+  manager: { role: 'MANAGER', label: 'マネージャー' },
+  employee: { role: 'EMPLOYEE', label: '従業員' },
 };
 
 export default function LoginPage() {
@@ -32,7 +32,7 @@ export default function LoginPage() {
     try {
       const { token, user } = await api.login(loginId, password, config.role);
       login(token, user);
-      navigate(config.home);
+      navigate('/set-name');
     } catch (err) {
       setError(err.message);
     } finally {

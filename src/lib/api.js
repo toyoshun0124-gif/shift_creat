@@ -48,6 +48,7 @@ async function request(path, { method = 'GET', body } = {}) {
 
 export const api = {
   login: (loginId, password, role) => request('/auth/login', { method: 'POST', body: { loginId, password, role } }),
+  setName: (name) => request('/auth/set-name', { method: 'POST', body: { name } }),
   currentPeriod: () => request('/periods/current'),
   submitMonthPreferences: (month, entries) =>
     request('/preferences/submit-month', { method: 'POST', body: { month, entries } }),

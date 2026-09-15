@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import TitlePage from './pages/TitlePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import SetNamePage from './pages/SetNamePage.jsx';
 import ManagerHomePage from './pages/ManagerHomePage.jsx';
 import EmployeeHomePage from './pages/EmployeeHomePage.jsx';
 import ShiftCreatePage from './pages/ShiftCreatePage.jsx';
@@ -16,6 +17,14 @@ export default function App() {
     <Routes>
       <Route path="/" element={<TitlePage />} />
       <Route path="/login/:roleKey" element={<LoginPage />} />
+      <Route
+        path="/set-name"
+        element={
+          <ProtectedRoute>
+            <SetNamePage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/manager"

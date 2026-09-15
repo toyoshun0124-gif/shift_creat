@@ -1,5 +1,6 @@
 export const MAX_TEXT_LENGTH = 200;
 export const MAX_REASON_LENGTH = 300;
+export const MAX_NAME_LENGTH = 50;
 
 const TIME_RE = /^([01]\d|2[0-3]|24):([0-5]\d)$/; // 00:00〜24:00 のみ許可（25:00 等は不正）
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
