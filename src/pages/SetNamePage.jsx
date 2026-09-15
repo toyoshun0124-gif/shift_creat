@@ -5,9 +5,10 @@ import { useAuth } from '../lib/AuthContext.jsx';
 import Message from '../components/Message.jsx';
 
 export default function SetNamePage() {
-  const { user, login } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [name, setName] = useState(user?.name || '');
+  // 個人情報のため、既存の名前があっても画面には表示しない（常に空欄から入力させる）
+  const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
